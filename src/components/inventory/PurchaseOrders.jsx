@@ -435,64 +435,120 @@ export default function PurchaseOrders() {
             {/* Preview Modal */}
             {showPreview && selectedPO && (
                 <div className="modal-overlay" onClick={() => setShowPreview(false)}>
-                    <div className="modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '800px' }}>
+                    <div className="modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '850px', width: '95%' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                             <h2>PO Preview</h2>
                             <button onClick={() => setShowPreview(false)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '20px' }}>✕</button>
                         </div>
 
-                        <div ref={previewRef} style={{ background: 'white', color: '#000', padding: '40px', borderRadius: '4px', marginBottom: '20px', minHeight: '600px', fontFamily: 'Arial, sans-serif' }}>
-                            <div style={{ textAlign: 'center', marginBottom: '30px', borderBottom: '2px solid #000', paddingBottom: '20px' }}>
-                                <h1 style={{ margin: '0 0 10px 0', fontSize: '32px' }}>PURCHASE ORDER</h1>
-                                <p style={{ margin: 0, fontSize: '14px', color: '#666' }}>Aggarwal Industries Pvt. Ltd.</p>
-                            </div>
-
-                            <table style={{ width: '100%', marginBottom: '30px', fontSize: '13px', lineHeight: '1.8' }}>
-                                <tbody>
-                                    <tr>
-                                        <td style={{ fontWeight: 'bold', width: '50%' }}>PO ID: {selectedPO.id}</td>
-                                        <td style={{ fontWeight: 'bold' }}>Date: {selectedPO.orderDate}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" style={{ paddingTop: '15px' }}>
-                                            <strong>Vendor:</strong> {selectedPO.vendorName}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px', fontSize: '13px' }}>
-                                <thead>
-                                    <tr style={{ background: '#f0f0f0', borderBottom: '2px solid #000' }}>
-                                        <th style={{ padding: '10px', textAlign: 'left' }}>Description</th>
-                                        <th style={{ padding: '10px', textAlign: 'right' }}>Quantity</th>
-                                        <th style={{ padding: '10px', textAlign: 'right' }}>Unit Price</th>
-                                        <th style={{ padding: '10px', textAlign: 'right' }}>Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr style={{ borderBottom: '1px solid #ddd' }}>
-                                        <td style={{ padding: '10px' }}>{selectedPO.material}</td>
-                                        <td style={{ padding: '10px', textAlign: 'right' }}>{selectedPO.qtyKg} kg</td>
-                                        <td style={{ padding: '10px', textAlign: 'right' }}>₹{selectedPO.unitPriceKg}</td>
-                                        <td style={{ padding: '10px', textAlign: 'right' }}>₹{selectedPO.total.toFixed(2)}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '30px' }}>
-                                <div style={{ width: '200px' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #000', paddingTop: '8px', fontWeight: 'bold', fontSize: '14px' }}>
-                                        <span>TOTAL</span>
-                                        <span>₹{selectedPO.total.toFixed(2)}</span>
+                        <div style={{ display: 'flex', justifyContent: 'center', background: 'var(--bg-secondary)', padding: '20px', borderRadius: '6px', overflowX: 'auto', marginBottom: '20px' }}>
+                            <div ref={previewRef} style={{
+                                width: '794px',
+                                minHeight: '1123px',
+                                background: '#fff',
+                                padding: '40px',
+                                boxSizing: 'border-box',
+                                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.15)',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                position: 'relative',
+                                color: '#1e293b',
+                                fontFamily: 'Arial, sans-serif'
+                            }}>
+                                {/* Corporate Header */}
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '2px solid #1e3a8a', paddingBottom: '10px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                                        <img src="/logo.png" alt="Company Logo" style={{ width: '60px', height: '60px', objectFit: 'contain' }} />
+                                        <div>
+                                            <h1 style={{ fontSize: '24px', margin: 0, fontWeight: 900, color: '#1e3a8a', letterSpacing: '-1px', textAlign: 'left' }}>AGGARWAL INDUSTRIES</h1>
+                                            <p style={{ fontSize: '11px', color: '#64748b', margin: '4px 0 0', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'left' }}>Precision. Innovation. Excellence.</p>
+                                        </div>
+                                    </div>
+                                    <div style={{ textAlign: 'right', fontSize: '10px', lineHeight: '1.5', color: '#475569' }}>
+                                        <div style={{ background: '#1e3a8a', color: '#fff', padding: '3px 8px', borderRadius: '3px', marginBottom: '6px', fontWeight: 700, display: 'inline-block' }}>
+                                            ISO 9001:2015 Certified
+                                        </div><br />
+                                        <strong>Plant:</strong> 42km Stone, Delhi-Mathura Road, Sikri, Faridabad - 121004 (HR.)<br />
+                                        <strong>Office:</strong> A-3, Sector-4, 22/1, Delhi-Mathura Road, Ballabgarh, Faridabad - 121004 (HR.)<br />
+                                        <strong>T:</strong> 9811280333 | <strong>E:</strong> ashutosh@aggarwal-industries.com
                                     </div>
                                 </div>
-                            </div>
 
-                            <div style={{ marginTop: '40px', paddingTop: '20px', borderTop: '1px solid #ccc', fontSize: '12px', color: '#666' }}>
-                                <p><strong>Due Date:</strong> {selectedPO.dueDate}</p>
-                                <p><strong>Status:</strong> {selectedPO.status}</p>
-                                {selectedPO.notes && <p><strong>Notes:</strong> {selectedPO.notes}</p>}
+                                {/* PO Info Row */}
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', alignItems: 'flex-end' }}>
+                                    <div style={{ textAlign: 'left' }}>
+                                        <h2 style={{ fontSize: '28px', margin: 0, color: '#1e3a8a', fontWeight: 800 }}>PURCHASE ORDER</h2>
+                                        <div style={{ fontSize: '13px', marginTop: '5px', color: '#64748b', fontWeight: 600 }}>
+                                            REF: {selectedPO.id} | DATE: {selectedPO.orderDate}
+                                        </div>
+                                    </div>
+                                    <div style={{ textAlign: 'right' }}>
+                                        <div style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', color: '#94a3b8', fontWeight: 700 }}>Vendor / Supplier:</div>
+                                        <div style={{ fontSize: '16px', fontWeight: 800, color: '#1e293b' }}>{selectedPO.vendorName}</div>
+                                        <div style={{ fontSize: '11px', color: '#64748b' }}>ID: {selectedPO.vendorId}</div>
+                                    </div>
+                                </div>
+
+                                {/* Items Table */}
+                                <div style={{ marginTop: '30px', flex: 1 }}>
+                                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                                        <thead>
+                                            <tr style={{ borderBottom: '2px solid #1e3a8a' }}>
+                                                <th style={{ textAlign: 'left', padding: '10px 0', fontSize: '12px', textTransform: 'uppercase', color: '#64748b' }}>Item Description</th>
+                                                <th style={{ textAlign: 'center', padding: '10px 0', fontSize: '12px', textTransform: 'uppercase', color: '#64748b' }}>Quantity</th>
+                                                <th style={{ textAlign: 'center', padding: '10px 0', fontSize: '12px', textTransform: 'uppercase', color: '#64748b' }}>Unit Price</th>
+                                                <th style={{ textAlign: 'right', padding: '10px 0', fontSize: '12px', textTransform: 'uppercase', color: '#64748b' }}>Amount (INR)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style={{ borderBottom: '1px solid #e2e8f0' }}>
+                                                <td style={{ padding: '20px 0', verticalAlign: 'top', textAlign: 'left' }}>
+                                                    <div style={{ fontSize: '15px', fontWeight: 700, color: '#1e293b' }}>{selectedPO.material}</div>
+                                                    <div style={{ fontSize: '12px', color: '#64748b', marginTop: '6px', lineHeight: '1.5' }}>
+                                                        • Raw Material Wire Sourcing<br />
+                                                        • Quality Standards: High Precision / Industrial Grade
+                                                    </div>
+                                                </td>
+                                                <td style={{ textAlign: 'center', fontWeight: 600, fontSize: '14px', padding: '20px 0' }}>{selectedPO.qtyKg} kg</td>
+                                                <td style={{ textAlign: 'center', fontWeight: 600, fontSize: '14px', padding: '20px 0' }}>₹{selectedPO.unitPriceKg} / kg</td>
+                                                <td style={{ textAlign: 'right', fontWeight: 800, fontSize: '15px', color: '#1e3a8a', padding: '20px 0' }}>₹{selectedPO.total.toFixed(2)}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                {/* Total Section */}
+                                <div style={{ width: '100%', borderTop: '2px solid #1e3a8a', paddingTop: '12px', marginTop: '20px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '20px' }}>
+                                        <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 700 }}>GRAND TOTAL:</div>
+                                        <div style={{ fontSize: '24px', fontWeight: 900, color: '#1e3a8a' }}>₹{selectedPO.total.toFixed(2)}</div>
+                                    </div>
+                                    <div style={{ fontSize: '10px', color: '#94a3b8', textAlign: 'right', marginTop: '2px', fontStyle: 'italic' }}>
+                                        (Amount inclusive of all basic material costs, delivery, and supplier terms)
+                                    </div>
+                                </div>
+
+                                {/* Terms and Conditions */}
+                                <div style={{ marginTop: '30px', display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '20px' }}>
+                                    <div style={{ fontSize: '9px', color: '#64748b', lineHeight: '1.6', textAlign: 'left' }}>
+                                        <strong style={{ color: '#1e3a8a', fontSize: '10px', display: 'block', marginBottom: '6px' }}>TERMS AND CONDITIONS:</strong>
+                                        1. <strong>Delivery:</strong> Materials must be delivered on or before the due date: {selectedPO.dueDate}.<br />
+                                        2. <strong>Inspection:</strong> Subject to standard quality inspection upon arrival at Sikri plant.<br />
+                                        3. <strong>Billing:</strong> Invoices must clearly reference the Purchase Order ID.<br />
+                                        4. <strong>Notes:</strong> {selectedPO.notes || 'None'}
+                                    </div>
+                                    <div style={{ textAlign: 'center' }}>
+                                        <div style={{ height: '40px' }}></div>
+                                        <div style={{ width: '140px', borderTop: '1px solid #cbd5e1', margin: '0 auto 6px' }}></div>
+                                        <div style={{ fontSize: '11px', fontWeight: 800, color: '#1e293b' }}>FOR AGGARWAL INDUSTRIES</div>
+                                        <div style={{ fontSize: '9px', color: '#94a3b8' }}>Authorized Signatory</div>
+                                    </div>
+                                </div>
+
+                                {/* Footer */}
+                                <div style={{ position: 'absolute', bottom: '20px', left: '40px', right: '40px', borderTop: '1px solid #f1f5f9', paddingTop: '10px', textAlign: 'center', fontSize: '9px', color: '#94a3b8' }}>
+                                    Precision Engineered Springs & Washers for Railway & Industrial Applications Global
+                                </div>
                             </div>
                         </div>
 
