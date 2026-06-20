@@ -6,7 +6,19 @@ import { EmailService } from '../../services/EmailService';
 import html2pdf from 'html2pdf.js';
 
 export default function PurchaseOrders() {
-    const { purchaseOrders, updatePO, deletePO, updateInventoryItem, inventoryItems, pendingPO, setPendingPO } = useContext(DataContext);
+    const { 
+        purchaseOrders, 
+        addPO,
+        updatePO, 
+        deletePO, 
+        updateInventoryItem, 
+        addInventoryItem,
+        inventoryItems, 
+        pendingPO, 
+        setPendingPO,
+        vendors,
+        suppliersList
+    } = useContext(DataContext);
     const { showToast } = useToast();
     const [filter, setFilter] = useState('all');
     const [showModal, setShowModal] = useState(false);
@@ -55,7 +67,7 @@ export default function PurchaseOrders() {
         return colors[status] || '#94a3b8';
     };
 
-    const handleAddPO = () => {
+    const handleOpenAddModal = () => {
         setFormData({
             vendorName: '',
             material: '',
@@ -87,8 +99,22 @@ export default function PurchaseOrders() {
             return;
         }
 
+        // Resolve vendorId
+        let resolvedVendorId = selectedPO?.vendorId;
+        if (!resolvedVendorId) {
+            const trimmedName = formData.vendorName.trim().toLowerCase();
+            const foundVendor = vendors?.find(v => v.name.trim().toLowerCase() === trimmedName) ||
+                                suppliersList?.find(s => s.name.trim().toLowerCase() === trimmedName);
+            if (foundVendor) {
+                resolvedVendorId = foundVendor.id;
+            } else {
+                resolvedVendorId = `VEND-${Date.now().toString().slice(-4)}`;
+            }
+        }
+
         const poData = {
             ...selectedPO,
+            vendorId: resolvedVendorId,
             vendorName: formData.vendorName,
             material: formData.material,
             qtyKg: parseFloat(formData.qtyKg),
@@ -105,8 +131,13 @@ export default function PurchaseOrders() {
         }
 
         try {
-            await updatePO(poData);
-            showToast(selectedPO ? '✅ PO updated' : '✅ PO created');
+            if (selectedPO) {
+                await updatePO(poData);
+                showToast('✅ PO updated');
+            } else {
+                await addPO(poData);
+                showToast('✅ PO created');
+            }
             setShowModal(false);
         } catch (e) {
             showToast('❌ Failed to save PO: ' + e.message);
@@ -141,6 +172,23 @@ export default function PurchaseOrders() {
                     qtyKg: inventoryItem.qtyKg + po.qtyKg
                 };
                 await updateInventoryItem(updatedItem);
+            } else {
+                // Create a new inventory item
+                const newItem = {
+                    id: `INV-${Date.now()}`,
+                    material: po.material,
+                    wireGauge: '2.0mm', // default fallback gauge
+                    lotNumber: `LOT-${po.vendorId || 'VEND'}-${Date.now().toString().slice(-4)}`,
+                    supplier: po.vendorName,
+                    supplierId: po.vendorId,
+                    qtyKg: po.qtyKg,
+                    minQtyKg: 100, // default minQty
+                    location: 'General Rack',
+                    receivedDate: new Date().toISOString().split('T')[0],
+                    expiryDate: null,
+                    status: 'In Stock'
+                };
+                await addInventoryItem(newItem);
             }
 
             // 2. Update PO status
@@ -224,7 +272,7 @@ export default function PurchaseOrders() {
                     <h1>Purchase Orders</h1>
                     <p>Manage vendor orders and inventory replenishment</p>
                 </div>
-                <button onClick={handleAddPO} className="btn-primary">
+                <button onClick={handleOpenAddModal} className="btn-primary">
                     <Plus size={18} /> New PO
                 </button>
             </div>

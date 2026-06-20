@@ -5,7 +5,7 @@ import {
     ArrowRight, CheckCircle, XCircle, Clock, X, Save, Trash2, Edit,
     Settings, ShoppingCart, Factory
 } from 'lucide-react';
-import { mrpAlerts } from '../../data/mockData';
+import { mrpAlerts, materialPricing } from '../../data/mockData';
 import { useToast } from '../../context/ToastContext';
 import { useData } from '../../context/DataContext';
 import { SupabaseService } from '../../services/SupabaseService';
@@ -166,12 +166,41 @@ export default function InventoryMRP() {
     };
 
     const handleGeneratePO = (alert) => {
-        // Pre-fill PO form with alert data
+        // Suggested PO is in the format "ID - Name" (e.g., "SUP001 - Tata Steel Wire")
+        let vendorName = '';
+        if (alert.suggestedPO) {
+            const parts = alert.suggestedPO.split(' - ');
+            if (parts.length > 1) {
+                // Try to find supplier by ID first
+                const supId = parts[0].trim();
+                const found = suppliersList.find(s => s.id === supId) || vendors.find(v => v.id === supId);
+                if (found) {
+                    vendorName = found.name;
+                } else {
+                    vendorName = parts[1].trim();
+                }
+            } else {
+                vendorName = alert.suggestedPO;
+            }
+        }
+
+        // Try to estimate unit price based on material and supplier
+        let unitPriceKg = 90; // Default fallback
+        if (alert.material) {
+            // Strip out sizing/gauge information (e.g. "Spring Steel 2.0mm" -> "Spring Steel")
+            const baseMaterial = alert.material.replace(/\s+\d+(\.\d+)?(mm|")?$/, '').trim();
+            const pricing = materialPricing[baseMaterial];
+            if (pricing) {
+                const supId = alert.suggestedPO ? alert.suggestedPO.split(' - ')[0].trim() : '';
+                unitPriceKg = pricing[supId] || pricing.default || 90;
+            }
+        }
+
         setPendingPO({
-            material: alert.material,
-            qtyKg: alert.shortfallQty || 100,
-            vendorName: alert.suggestedVendor || '',
-            unitPriceKg: alert.estimatedPrice || 0
+            material: alert.material.replace(/\s+\d+(\.\d+)?(mm|")?$/, '').trim(), // e.g. "Spring Steel"
+            qtyKg: alert.shortfall || 100,
+            vendorName: vendorName,
+            unitPriceKg: unitPriceKg
         });
         showToast('✅ Opening PO Creator...');
         navigate('/purchase-orders');
