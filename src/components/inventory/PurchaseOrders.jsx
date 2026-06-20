@@ -57,15 +57,7 @@ export default function PurchaseOrders() {
         return po.status === filter;
     });
 
-    const getStatusColor = (status) => {
-        const colors = {
-            'Draft': '#94a3b8',
-            'Sent': '#3b82f6',
-            'Received': '#10b981',
-            'Cancelled': '#ef4444'
-        };
-        return colors[status] || '#94a3b8';
-    };
+
 
     const handleOpenAddModal = () => {
         setFormData({
@@ -266,32 +258,24 @@ export default function PurchaseOrders() {
     };
 
     return (
-        <div className="page-container">
-            <div className="page-header">
+        <div className="page-content">
+            <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <div>
-                    <h1>Purchase Orders</h1>
-                    <p>Manage vendor orders and inventory replenishment</p>
+                    <h1 style={{ fontSize: '24px', fontWeight: '800', margin: 0 }}>Purchase Orders</h1>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '13px', marginTop: '4px', margin: '4px 0 0 0' }}>Manage vendor orders and inventory replenishment</p>
                 </div>
-                <button onClick={handleOpenAddModal} className="btn-primary">
+                <button onClick={handleOpenAddModal} className="btn btn-primary">
                     <Plus size={18} /> New PO
                 </button>
             </div>
 
             {/* Filter Tabs */}
-            <div className="filter-tabs" style={{ marginBottom: '24px' }}>
+            <div className="tabs" style={{ marginBottom: '24px' }}>
                 {['all', 'Draft', 'Sent', 'Received', 'Cancelled'].map(status => (
                     <button
                         key={status}
                         onClick={() => setFilter(status)}
-                        style={{
-                            padding: '8px 16px',
-                            borderRadius: '6px',
-                            border: 'none',
-                            background: filter === status ? 'var(--accent-blue)' : 'var(--bg-secondary)',
-                            color: filter === status ? 'white' : 'var(--text-muted)',
-                            cursor: 'pointer',
-                            fontSize: '14px'
-                        }}
+                        className={`tab ${filter === status ? 'active' : ''}`}
                     >
                         {status === 'all' ? 'All' : status}
                     </button>
@@ -299,72 +283,82 @@ export default function PurchaseOrders() {
             </div>
 
             {/* PO List */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '16px' }}>
-                {filteredPOs.map(po => (
-                    <div key={po.id} className="card" style={{ display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '12px' }}>
-                            <div>
-                                <h3 style={{ margin: 0, fontSize: '16px' }}>{po.material}</h3>
-                                <p style={{ margin: '4px 0 0 0', color: 'var(--text-muted)', fontSize: '13px' }}>{po.vendorName}</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px' }}>
+                {filteredPOs.map(po => {
+                    const statusBadgeMap = {
+                        'Draft': 'gray',
+                        'Sent': 'blue',
+                        'Received': 'green',
+                        'Cancelled': 'red'
+                    };
+                    return (
+                        <div key={po.id} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                <div>
+                                    <h3 style={{ fontSize: '16px', fontWeight: '700', margin: 0 }}>{po.material}</h3>
+                                    <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>{po.vendorName}</p>
+                                </div>
+                                <span className={`badge ${statusBadgeMap[po.status] || 'gray'}`}>
+                                    <span className="badge-dot"></span>
+                                    {po.status}
+                                </span>
                             </div>
-                            <span style={{
-                                padding: '6px 12px',
-                                borderRadius: '12px',
-                                background: getStatusColor(po.status),
-                                color: 'white',
-                                fontSize: '12px',
-                                fontWeight: 600
-                            }}>
-                                {po.status}
-                            </span>
-                        </div>
 
-                        <div style={{ flex: 1 }}>
-                            <p style={{ margin: '8px 0', fontSize: '13px' }}>
-                                <strong>Qty:</strong> {po.qtyKg} kg
-                            </p>
-                            <p style={{ margin: '8px 0', fontSize: '13px' }}>
-                                <strong>Price:</strong> ₹{po.unitPriceKg}/kg
-                            </p>
-                            <p style={{ margin: '8px 0', fontSize: '13px' }}>
-                                <strong>Total:</strong> ₹{po.total.toFixed(2)}
-                            </p>
-                            <p style={{ margin: '8px 0', fontSize: '13px', color: 'var(--text-muted)' }}>
-                                Due: {po.dueDate}
-                            </p>
-                        </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px' }}>
+                                    <span style={{ color: 'var(--text-secondary)' }}>Quantity:</span>
+                                    <span style={{ fontWeight: '600' }}>{po.qtyKg} kg</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px' }}>
+                                    <span style={{ color: 'var(--text-secondary)' }}>Unit Price:</span>
+                                    <span style={{ fontWeight: '600' }}>₹{po.unitPriceKg}/kg</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', borderTop: '1px dashed var(--border-color)', paddingTop: '8px', marginTop: '4px' }}>
+                                    <span style={{ color: 'var(--text-secondary)', fontWeight: '700' }}>Total Value:</span>
+                                    <span style={{ fontWeight: '800', color: 'var(--accent-blue-light)' }}>₹{po.total.toFixed(2)}</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                                    <span>Due Date:</span>
+                                    <span>{po.dueDate}</span>
+                                </div>
+                            </div>
 
-                        <div style={{ display: 'flex', gap: '8px', marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border-color)' }}>
-                            <button
-                                onClick={() => { setSelectedPO(po); setShowPreview(true); }}
-                                style={{ flex: 1, padding: '8px', background: 'var(--bg-secondary)', border: 'none', borderRadius: '4px', color: 'var(--text-primary)', cursor: 'pointer', fontSize: '12px' }}
-                            >
-                                <Eye size={14} style={{ marginRight: '4px' }} /> Preview
-                            </button>
-                            {po.status !== 'Received' && (
+                            <div style={{ display: 'flex', gap: '8px', marginTop: '4px', paddingTop: '16px', borderTop: '1px solid var(--border-color)', alignItems: 'center' }}>
                                 <button
-                                    onClick={() => handleMarkReceived(po)}
-                                    disabled={isProcessing}
-                                    style={{ flex: 1, padding: '8px', background: 'var(--accent-green)', border: 'none', borderRadius: '4px', color: 'white', cursor: 'pointer', fontSize: '12px' }}
+                                    onClick={() => { setSelectedPO(po); setShowPreview(true); }}
+                                    className="btn btn-secondary btn-sm"
+                                    style={{ flex: 1, height: '32px', justifyContent: 'center' }}
                                 >
-                                    <CheckCircle2 size={14} style={{ marginRight: '4px' }} /> Received
+                                    <Eye size={14} /> Preview
                                 </button>
-                            )}
-                            <button
-                                onClick={() => handleEditPO(po)}
-                                style={{ padding: '8px', background: 'var(--bg-secondary)', border: 'none', borderRadius: '4px', color: 'var(--text-primary)', cursor: 'pointer' }}
-                            >
-                                <Edit2 size={14} />
-                            </button>
-                            <button
-                                onClick={() => handleDeletePO(po.id)}
-                                style={{ padding: '8px', background: 'var(--bg-secondary)', border: 'none', borderRadius: '4px', color: '#ef4444', cursor: 'pointer' }}
-                            >
-                                <Trash2 size={14} />
-                            </button>
+                                {po.status !== 'Received' && (
+                                    <button
+                                        onClick={() => handleMarkReceived(po)}
+                                        disabled={isProcessing}
+                                        className="btn btn-success btn-sm"
+                                        style={{ flex: 1, height: '32px', justifyContent: 'center' }}
+                                    >
+                                        <CheckCircle2 size={14} /> Received
+                                    </button>
+                                )}
+                                <button
+                                    onClick={() => handleEditPO(po)}
+                                    className="btn btn-secondary btn-sm btn-icon"
+                                    style={{ width: '32px', height: '32px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                                >
+                                    <Edit2 size={14} />
+                                </button>
+                                <button
+                                    onClick={() => handleDeletePO(po.id)}
+                                    className="btn btn-danger btn-sm btn-icon"
+                                    style={{ width: '32px', height: '32px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                                >
+                                    <Trash2 size={14} />
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
             {filteredPOs.length === 0 && (
@@ -376,56 +370,85 @@ export default function PurchaseOrders() {
             {/* Add/Edit Modal */}
             {showModal && (
                 <div className="modal-overlay" onClick={() => setShowModal(false)}>
-                    <div className="modal" onClick={e => e.stopPropagation()}>
-                        <h2>{selectedPO ? 'Edit Purchase Order' : 'New Purchase Order'}</h2>
-                        <div style={{ display: 'grid', gap: '12px' }}>
-                            <input
-                                type="text"
-                                placeholder="Vendor Name"
-                                value={formData.vendorName}
-                                onChange={e => setFormData({ ...formData, vendorName: e.target.value })}
-                                style={{ padding: '10px', border: '1px solid var(--border-color)', borderRadius: '4px', background: 'var(--bg-secondary)', color: 'var(--text-primary)' }}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Material (e.g., Spring Steel)"
-                                value={formData.material}
-                                onChange={e => setFormData({ ...formData, material: e.target.value })}
-                                style={{ padding: '10px', border: '1px solid var(--border-color)', borderRadius: '4px', background: 'var(--bg-secondary)', color: 'var(--text-primary)' }}
-                            />
-                            <input
-                                type="number"
-                                placeholder="Quantity (kg)"
-                                value={formData.qtyKg}
-                                onChange={e => setFormData({ ...formData, qtyKg: e.target.value })}
-                                style={{ padding: '10px', border: '1px solid var(--border-color)', borderRadius: '4px', background: 'var(--bg-secondary)', color: 'var(--text-primary)' }}
-                            />
-                            <input
-                                type="number"
-                                placeholder="Unit Price (₹/kg)"
-                                value={formData.unitPriceKg}
-                                onChange={e => setFormData({ ...formData, unitPriceKg: e.target.value })}
-                                style={{ padding: '10px', border: '1px solid var(--border-color)', borderRadius: '4px', background: 'var(--bg-secondary)', color: 'var(--text-primary)' }}
-                            />
-                            <input
-                                type="date"
-                                value={formData.dueDate}
-                                onChange={e => setFormData({ ...formData, dueDate: e.target.value })}
-                                style={{ padding: '10px', border: '1px solid var(--border-color)', borderRadius: '4px', background: 'var(--bg-secondary)', color: 'var(--text-primary)' }}
-                            />
-                            <textarea
-                                placeholder="Notes (optional)"
-                                value={formData.notes}
-                                onChange={e => setFormData({ ...formData, notes: e.target.value })}
-                                style={{ padding: '10px', border: '1px solid var(--border-color)', borderRadius: '4px', background: 'var(--bg-secondary)', color: 'var(--text-primary)', minHeight: '80px', fontFamily: 'inherit' }}
-                            />
+                    <div className="modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '500px', width: '90%' }}>
+                        <h2 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '20px' }}>
+                            {selectedPO ? 'Edit Purchase Order' : 'New Purchase Order'}
+                        </h2>
+                        
+                        <div style={{ display: 'grid', gap: '14px' }}>
+                            <div className="form-group">
+                                <label className="form-label">Vendor Name</label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    placeholder="Enter vendor name"
+                                    value={formData.vendorName}
+                                    onChange={e => setFormData({ ...formData, vendorName: e.target.value })}
+                                />
+                            </div>
+                            
+                            <div className="form-group">
+                                <label className="form-label">Material Sourced</label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    placeholder="e.g. Spring Steel"
+                                    value={formData.material}
+                                    onChange={e => setFormData({ ...formData, material: e.target.value })}
+                                />
+                            </div>
+                            
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                                <div className="form-group">
+                                    <label className="form-label">Quantity (kg)</label>
+                                    <input
+                                        type="number"
+                                        className="form-input"
+                                        placeholder="Qty"
+                                        value={formData.qtyKg}
+                                        onChange={e => setFormData({ ...formData, qtyKg: e.target.value })}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-label">Unit Price (₹/kg)</label>
+                                    <input
+                                        type="number"
+                                        className="form-input"
+                                        placeholder="Price"
+                                        value={formData.unitPriceKg}
+                                        onChange={e => setFormData({ ...formData, unitPriceKg: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+                            
+                            <div className="form-group">
+                                <label className="form-label">Due Date</label>
+                                <input
+                                    type="date"
+                                    className="form-input"
+                                    value={formData.dueDate}
+                                    onChange={e => setFormData({ ...formData, dueDate: e.target.value })}
+                                />
+                            </div>
+                            
+                            <div className="form-group">
+                                <label className="form-label">Notes (Optional)</label>
+                                <textarea
+                                    className="form-input"
+                                    placeholder="Special instructions or notes"
+                                    value={formData.notes}
+                                    onChange={e => setFormData({ ...formData, notes: e.target.value })}
+                                    style={{ minHeight: '80px', fontFamily: 'inherit', resize: 'vertical' }}
+                                />
+                            </div>
                         </div>
-                        <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
-                            <button onClick={() => setShowModal(false)} style={{ flex: 1, padding: '10px', background: 'var(--bg-secondary)', border: 'none', borderRadius: '4px', color: 'var(--text-primary)', cursor: 'pointer' }}>
+                        
+                        <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
+                            <button onClick={() => setShowModal(false)} className="btn btn-secondary" style={{ flex: 1 }}>
                                 Cancel
                             </button>
-                            <button onClick={handleSavePO} style={{ flex: 1, padding: '10px', background: 'var(--accent-blue)', border: 'none', borderRadius: '4px', color: 'white', cursor: 'pointer' }}>
-                                Save
+                            <button onClick={handleSavePO} className="btn btn-primary" style={{ flex: 1 }}>
+                                Save PO
                             </button>
                         </div>
                     </div>
