@@ -4,12 +4,12 @@ import { pipelineStages } from '../../data/mockData';
 import { useData } from '../../context/DataContext';
 
 const stageColors = {
-    'New Lead': '#f97316',
-    'Specs Received': '#ea580c',
+    'New Lead': '#6366f1',
+    'Specs Received': '#3b82f6',
     'Quoted': '#f59e0b',
-    'Sample Sent': '#c084fc',
-    'Approved': '#fbbf24',
-    'In Production': '#22c55e',
+    'Sample Sent': '#a855f7',
+    'Approved': '#22d3ee',
+    'In Production': '#10b981',
 };
 
 const formatCurrency = (v) => `₹${(v / 1000).toFixed(0)}K`;
@@ -124,7 +124,7 @@ export default function SalesPipeline() {
             <div className="flex items-center justify-between" style={{ marginBottom: 20 }}>
                 <div>
                     <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>Total Pipeline Value</div>
-                    <div style={{ fontSize: 28, fontWeight: 800, background: 'linear-gradient(135deg, #f97316, #fbbf24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                    <div style={{ fontSize: 28, fontWeight: 800, background: 'linear-gradient(135deg, #6366f1, #22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                         ₹{(totalPipeline / 100000).toFixed(1)} Lakhs
                     </div>
                 </div>

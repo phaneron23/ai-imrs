@@ -16,7 +16,7 @@ import { useData } from '../../context/DataContext';
 const formatCurrency = (v) => `₹${(v / 100000).toFixed(1)}L`;
 const formatNumber = (v) => v.toLocaleString('en-IN');
 
-const COLORS = ['#f97316', '#fbbf24', '#22c55e', '#ea580c', '#ef4444', '#c084fc'];
+const COLORS = ['#6366f1', '#22d3ee', '#10b981', '#f59e0b', '#ef4444', '#a855f7'];
 
 const leadsBySource = [
     { name: 'Trade Show', value: 3 },
@@ -82,12 +82,12 @@ export default function Dashboard() {
                         <AreaChart data={revenueData}>
                             <defs>
                                 <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#f97316" stopOpacity={0.3} />
-                                    <stop offset="100%" stopColor="#f97316" stopOpacity={0} />
+                                    <stop offset="0%" stopColor="#6366f1" stopOpacity={0.3} />
+                                    <stop offset="100%" stopColor="#6366f1" stopOpacity={0} />
                                 </linearGradient>
                                 <linearGradient id="targetGrad" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#fbbf24" stopOpacity={0.15} />
-                                    <stop offset="100%" stopColor="#fbbf24" stopOpacity={0} />
+                                    <stop offset="0%" stopColor="#22d3ee" stopOpacity={0.15} />
+                                    <stop offset="100%" stopColor="#22d3ee" stopOpacity={0} />
                                 </linearGradient>
                             </defs>
                             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
@@ -97,8 +97,8 @@ export default function Dashboard() {
                                 contentStyle={{ background: '#1a1f35', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#f1f5f9', fontSize: '12px' }}
                                 formatter={(v) => [`₹${(v / 100000).toFixed(1)}L`, '']}
                             />
-                            <Area type="monotone" dataKey="target" stroke="#fbbf24" strokeWidth={2} strokeDasharray="5 5" fill="url(#targetGrad)" name="Target" />
-                            <Area type="monotone" dataKey="revenue" stroke="#f97316" strokeWidth={2.5} fill="url(#revGrad)" name="Revenue" />
+                            <Area type="monotone" dataKey="target" stroke="#22d3ee" strokeWidth={2} strokeDasharray="5 5" fill="url(#targetGrad)" name="Target" />
+                            <Area type="monotone" dataKey="revenue" stroke="#6366f1" strokeWidth={2.5} fill="url(#revGrad)" name="Revenue" />
                             <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
                         </AreaChart>
                     </ResponsiveContainer>
@@ -120,8 +120,8 @@ export default function Dashboard() {
                                 contentStyle={{ background: '#1a1f35', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#f1f5f9', fontSize: '12px' }}
                                 formatter={(v) => [formatNumber(v), '']}
                             />
-                            <Bar dataKey="springs" fill="#f97316" radius={[4, 4, 0, 0]} name="Springs" />
-                            <Bar dataKey="washers" fill="#fbbf24" radius={[4, 4, 0, 0]} name="Washers" />
+                            <Bar dataKey="springs" fill="#6366f1" radius={[4, 4, 0, 0]} name="Springs" />
+                            <Bar dataKey="washers" fill="#22d3ee" radius={[4, 4, 0, 0]} name="Washers" />
                             <Legend wrapperStyle={{ fontSize: '11px', color: '#94a3b8' }} />
                         </BarChart>
                     </ResponsiveContainer>

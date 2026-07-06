@@ -86,7 +86,7 @@ export default function Login({ onLoginSuccess }) {
                     }}>
                         AI
                     </div>
-                    <h2 style={{ fontSize: '20px', fontWeight: '800', background: 'linear-gradient(135deg, #fff, #fb923c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: '8px 0 2px' }}>
+                    <h2 style={{ fontSize: '20px', fontWeight: '800', background: 'linear-gradient(135deg, #fff, #a5b4fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: '8px 0 2px' }}>
                         Aggarwal Industries
                     </h2>
                     <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: '700' }}>

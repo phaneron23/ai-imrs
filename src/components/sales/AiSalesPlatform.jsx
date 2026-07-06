@@ -490,7 +490,7 @@ export default function AiSalesPlatform() {
                                 </p>
                             </div>
 
-                            <button className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', marginTop: '20px', background: 'linear-gradient(135deg, #fb7185, #f97316)' }} onClick={() => showToast('Voice AI Dialing initialized...')}>
+                            <button className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', marginTop: '20px', background: 'linear-gradient(135deg, #ec4899, #8b5cf6)' }} onClick={() => showToast('Voice AI Dialing initialized...')}>
                                 <Target size={14}/> Launch Voice AI Assistant
                             </button>
                             <p style={{ fontSize: '11px', color: 'var(--text-muted)', textAlign: 'center', marginTop: '8px' }}>Let our AI voice agent perform the cold call and qualify them.</p>
