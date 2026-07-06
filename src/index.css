@@ -1,40 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
-  /* Dark Theme Colors */
-  --bg-primary: #0a0e1a;
-  --bg-secondary: #111827;
-  --bg-card: #1a1f35;
-  --bg-card-hover: #222842;
-  --bg-glass: rgba(26, 31, 53, 0.7);
+  /* Dark Theme Colors — Sunset Orange/Crimson */
+  --bg-primary: #0d0a0a;
+  --bg-secondary: #150e0a;
+  --bg-card: #1c1410;
+  --bg-card-hover: #2a1a14;
+  --bg-glass: rgba(28, 20, 16, 0.7);
   --bg-glass-light: rgba(255, 255, 255, 0.03);
 
   --border-color: rgba(255, 255, 255, 0.06);
-  --border-glow: rgba(99, 102, 241, 0.3);
+  --border-glow: rgba(249, 115, 22, 0.3);
 
   --text-primary: #f1f5f9;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
 
-  --accent-blue: #6366f1;
-  --accent-blue-light: #818cf8;
-  --accent-cyan: #22d3ee;
-  --accent-green: #10b981;
-  --accent-green-light: #34d399;
-  --accent-orange: #f59e0b;
+  --accent-blue: #f97316;
+  --accent-blue-light: #fb923c;
+  --accent-cyan: #fbbf24;
+  --accent-green: #22c55e;
+  --accent-green-light: #4ade80;
+  --accent-orange: #ea580c;
   --accent-red: #ef4444;
-  --accent-purple: #a855f7;
-  --accent-pink: #ec4899;
+  --accent-purple: #c084fc;
+  --accent-pink: #fb7185;
 
-  --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6);
-  --gradient-success: linear-gradient(135deg, #10b981, #22d3ee);
+  --gradient-primary: linear-gradient(135deg, #f97316, #ef4444);
+  --gradient-success: linear-gradient(135deg, #22c55e, #fbbf24);
   --gradient-warning: linear-gradient(135deg, #f59e0b, #ef4444);
-  --gradient-info: linear-gradient(135deg, #3b82f6, #6366f1);
+  --gradient-info: linear-gradient(135deg, #f97316, #fbbf24);
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.15);
+  --shadow-glow: 0 0 20px rgba(249, 115, 22, 0.15);
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -115,7 +115,7 @@ body {
 .sidebar-logo h1 {
   font-size: 16px;
   font-weight: 700;
-  background: linear-gradient(135deg, #fff, #a5b4fc);
+  background: linear-gradient(135deg, #fff, #fb923c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.3px;
@@ -433,7 +433,7 @@ body {
 .kpi-card.orange::before { background: linear-gradient(135deg, #f59e0b, #f97316); }
 .kpi-card.red::before { background: var(--gradient-warning); }
 .kpi-card.purple::before { background: linear-gradient(135deg, #a855f7, #ec4899); }
-.kpi-card.cyan::before { background: linear-gradient(135deg, #22d3ee, #3b82f6); }
+.kpi-card.cyan::before { background: linear-gradient(135deg, #fbbf24, #f97316); }
 
 .kpi-icon {
   width: 44px;

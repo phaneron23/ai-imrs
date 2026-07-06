@@ -6,7 +6,7 @@ import {
 } from 'recharts';
 import { campaigns, leads } from '../../data/mockData';
 
-const COLORS = ['#6366f1', '#22d3ee', '#a855f7', '#f59e0b', '#10b981'];
+const COLORS = ['#f97316', '#fbbf24', '#c084fc', '#ea580c', '#22c55e'];
 
 const channelData = campaigns.map(c => ({
     name: c.channel,
@@ -109,15 +109,15 @@ export default function MarketingROI() {
                         <AreaChart data={monthlyLeads}>
                             <defs>
                                 <linearGradient id="leadGrad" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor="#6366f1" stopOpacity={0.3} />
-                                    <stop offset="100%" stopColor="#6366f1" stopOpacity={0} />
+                                    <stop offset="0%" stopColor="#f97316" stopOpacity={0.3} />
+                                    <stop offset="100%" stopColor="#f97316" stopOpacity={0} />
                                 </linearGradient>
                             </defs>
                             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
                             <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11 }} />
                             <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 11 }} />
                             <Tooltip contentStyle={{ background: '#1a1f35', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#f1f5f9', fontSize: '12px' }} />
-                            <Area type="monotone" dataKey="leads" stroke="#6366f1" strokeWidth={2} fill="url(#leadGrad)" name="Leads" />
+                            <Area type="monotone" dataKey="leads" stroke="#f97316" strokeWidth={2} fill="url(#leadGrad)" name="Leads" />
                             <Area type="monotone" dataKey="conversions" stroke="#10b981" strokeWidth={2} fill="rgba(16,185,129,0.1)" name="Conversions" />
                             <Legend wrapperStyle={{ fontSize: '11px' }} />
                         </AreaChart>
